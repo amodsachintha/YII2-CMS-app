@@ -43,4 +43,13 @@ class Migration extends \yii\db\ActiveRecord
             'apply_time' => 'Apply Time',
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     * @return MigrationQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new MigrationQuery(get_called_class());
+    }
 }

@@ -1,106 +1,123 @@
 <?php
 
 namespace app\models;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 
+use Yii;
+use yii\db\Exception;
+use yii\web\IdentityInterface;
+use yii\db\ActiveRecord;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property int $id
+ * @property int $role_id
+ * @property string $email
+ * @property string $password
+ * @property string $name
+ * @property string $auth_key
+ * @property string $access_token
+ */
 class User extends ActiveRecord implements IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'user';
+    }
 
     /**
      * {@inheritdoc}
      */
+    public function rules()
+    {
+        return [
+            [['role_id', 'email', 'password', 'name'], 'required'],
+            [['role_id'], 'integer'],
+            [['email', 'password', 'name', 'auth_key', 'access_token'], 'string', 'max' => 191],
+            [['email'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'role_id' => 'Role ID',
+            'email' => 'Email',
+            'password' => 'Password',
+            'name' => 'Name',
+            'auth_key' => 'Auth Key',
+            'access_token' => 'Access Token',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
+    }
+
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        try{
+            return self::find()->where(['id'=>$id])->one();
+        }catch (\Exception $e){
+            return null;
+        }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
+        try{
+            return self::find()->where(['access_token'=>$token])->one();
+        }catch (\Exception $e){
+            return null;
         }
-
-        return null;
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        return $this->auth_key === $authKey;
     }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
+    public static function findByEmail($email)
+    {
+        try{
+            return self::find()->where(['email'=>$email])->one();
+        }catch (Exception $exception){
+            return null;
+        }
+
+    }
+
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        if(Yii::$app->getSecurity()->validatePassword($password, $this->password)){
+            return true;
+        }
+        else
+            return false;
+
     }
+
+
 }

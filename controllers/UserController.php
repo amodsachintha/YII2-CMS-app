@@ -10,6 +10,7 @@ use yii\base\Security;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UnauthorizedHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -37,6 +38,9 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->isGuest){
+            throw new UnauthorizedHttpException("Unauthorized!",401);
+        }
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -54,6 +58,10 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        if(Yii::$app->user->isGuest){
+            throw new UnauthorizedHttpException("Unauthorized!",401);
+        }
+
         $model = $this->findModel($id);
         return $this->render('view', [
             'model' => $model,
@@ -67,6 +75,9 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->isGuest){
+            throw new UnauthorizedHttpException("Unauthorized!",401);
+        }
         $model = new User();
 
         if(Yii::$app->request->isPost){
@@ -106,6 +117,9 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
+        if(Yii::$app->user->isGuest){
+            throw new UnauthorizedHttpException("Unauthorized!",401);
+        }
         $model = $this->findModel($id);
         $model->password = null;
 
@@ -146,6 +160,10 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
+        if(Yii::$app->user->isGuest){
+            throw new UnauthorizedHttpException("Unauthorized!",401);
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

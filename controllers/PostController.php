@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\Tag;
 use Yii;
 use app\models\Post;
 use app\models\searches\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use DateTime;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -52,8 +55,11 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
+        $post = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $post,
+            'media' => $post->medias,
+            'tags' => $post->tags
         ]);
     }
 
@@ -66,9 +72,38 @@ class PostController extends Controller
     {
         $model = new Post();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post()['Post'];
+            $tags = Yii::$app->request->post()['tags'];
+
+            $data['user_id'] = Yii::$app->user->identity->getId();
+            $date = new DateTime();
+
+            $data['created_at'] = $date->format('Y-m-d H:i:s');
+            $data['updated_at'] = $date->format('Y-m-d H:i:s');
+
+//            Yii::$app->response->format = Response::FORMAT_JSON;
+//            return $tags;
+
+            $model->category_id = $data['category_id'];
+            $model->user_id = $data['user_id'];
+            $model->title = $data['title'];
+            $model->content = $data['content'];
+            $model->created_at = $data['created_at'];
+            $model->updated_at = $data['updated_at'];
+
+            if($model->save()){
+                $tagArray = explode(',',$tags);
+                foreach ($tagArray as $tag){
+                    $tagObj = new Tag();
+                    $tagObj->title = $tag;
+                    $tagObj->save();
+                    $model->link('tags',$tagObj);
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
 
         return $this->render('create', [
             'model' => $model,
@@ -86,12 +121,33 @@ class PostController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post()['Post'];
+            $tags = Yii::$app->request->post()['tags'];
+
+            $date = new DateTime();
+            $data['updated_at'] = $date->format('Y-m-d H:i:s');
+
+            $model->category_id = $data['category_id'];
+            $model->title = $data['title'];
+            $model->content = $data['content'];
+            $model->updated_at = $data['updated_at'];
+
+            if($model->save()){
+                $tagArray = explode(',',$tags);
+                foreach ($tagArray as $tag){
+                    $tagObj = new Tag();
+                    $tagObj->title = $tag;
+                    $tagObj->save();
+                    $model->link('tags',$tagObj);
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'tags' => $model->tags
         ]);
     }
 

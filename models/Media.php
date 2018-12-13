@@ -41,7 +41,7 @@ class Media extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'post_id' => 'Post ID',
-            'url' => 'Url',
+            'url' => 'File',
         ];
     }
 

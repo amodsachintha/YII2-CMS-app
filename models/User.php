@@ -51,7 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
             'role_id' => 'Role ID',
             'email' => 'Email',
             'password' => 'Password',
-            'name' => 'Name',
+            'name' => 'Author',
             'auth_key' => 'Auth Key',
             'access_token' => 'Access Token',
         ];
@@ -117,6 +117,10 @@ class User extends ActiveRecord implements IdentityInterface
         else
             return false;
 
+    }
+
+    public function getRole(){
+        return $this->hasOne(Role::className(),['id'=>'role_id']);
     }
 
 

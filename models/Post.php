@@ -47,7 +47,7 @@ class Post extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'category_id' => 'Category ID',
-            'user_id' => 'User ID',
+            'user_id' => 'Author ID',
             'title' => 'Title',
             'content' => 'Content',
             'created_at' => 'Created At',
@@ -62,5 +62,23 @@ class Post extends \yii\db\ActiveRecord
     public static function find()
     {
         return new PostQuery(get_called_class());
+    }
+
+
+    public function getCategory(){
+        return $this->hasOne(Category::className(),['id'=>'category_id']);
+    }
+
+
+    public function getUser(){
+        return $this->hasOne(User::className(),['id'=>'user_id']);
+    }
+
+    public function getTags(){
+        return $this->hasMany(Tag::className(),['id'=>'tag_id'])->viaTable('post_tag',['post_id'=>'id']);
+    }
+
+    public function getMedias(){
+        return $this->hasMany(Media::className(),['post_id'=>'id']);
     }
 }

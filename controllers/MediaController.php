@@ -8,6 +8,8 @@ use app\models\searches\MediaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * MediaController implements the CRUD actions for Media model.
@@ -65,9 +67,17 @@ class MediaController extends Controller
     public function actionCreate()
     {
         $model = new Media();
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post()['Media'];
+            $file = UploadedFile::getInstance($model,'url');
+            $fileName = 'uploads/' . md5(time()) .'-'.$file->baseName.'.' . $file->extension;
+            $file->saveAs($fileName);
+            $model->url = '/'.$fileName;
+            $model->post_id = $data['post_id'];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -86,8 +96,17 @@ class MediaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post()['Media'];
+            $file = UploadedFile::getInstance($model,'url');
+            $fileName = 'uploads/' . md5(time()) .'-'.$file->baseName.'.' . $file->extension;
+            $file->saveAs($fileName);
+            $model->url = '/'.$fileName;
+            $model->post_id = $data['post_id'];
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -104,7 +123,10 @@ class MediaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+
+        $model = $this->findModel($id);
+        unlink(Yii::$app->basePath . '/web/' .$model->url);
+        $model->delete();
 
         return $this->redirect(['index']);
     }

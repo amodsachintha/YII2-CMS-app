@@ -35,4 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?php
+    if (preg_match('(png|jpeg|jpg|bmp)', $model->url) === 1) {
+        echo "<img src='$model->url' width='200' class='img-thumbnail'> &nbsp;";
+    } else {
+        echo "<a href='$model->url' class='btn btn-warning' target='_blank'>Download File</a> &nbsp;";
+    }
+
+    ?>
 </div>

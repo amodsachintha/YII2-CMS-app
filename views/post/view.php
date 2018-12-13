@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'category_id',
             'user_id',
             'title',
-            'content:ntext',
+            'content:raw',
             'created_at',
             'updated_at',
         ],

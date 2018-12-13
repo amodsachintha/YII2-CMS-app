@@ -8,6 +8,7 @@ use app\models\searches\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use DateTime;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -65,9 +66,15 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $model = new Category();
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post();
+            $date = new DateTime();
+            $data['Category']['created_at'] = $date->format('Y-m-d H:i:s');
+            $data['Category']['updated_at'] = $date->format('Y-m-d H:i:s');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($data) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -86,10 +93,15 @@ class CategoryController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post();
+            $date = new DateTime();
+            $data['Category']['updated_at'] = $date->format('Y-m-d H:i:s');
 
+            if ($model->load($data) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
         return $this->render('update', [
             'model' => $model,
         ]);

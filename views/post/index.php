@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'category.title',
             'user.name',
             'title',
-            'content:ntext',
+//            'content:ntext',
             'created_at',
             //'updated_at',
 

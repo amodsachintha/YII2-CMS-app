@@ -53,4 +53,9 @@ class Media extends \yii\db\ActiveRecord
     {
         return new MediaQuery(get_called_class());
     }
+
+
+    public function getPost(){
+        return $this->hasOne(Post::className(),['id'=>'post_id']);
+    }
 }

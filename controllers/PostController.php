@@ -94,11 +94,14 @@ class PostController extends Controller
 
             if($model->save()){
                 $tagArray = explode(',',$tags);
-                foreach ($tagArray as $tag){
-                    $tagObj = new Tag();
-                    $tagObj->title = $tag;
-                    $tagObj->save();
-                    $model->link('tags',$tagObj);
+                $tagArray1 = array_diff($tagArray,[""]);
+                if(count($tagArray1) > 0){
+                    foreach ($tagArray1 as $tag){
+                        $tagObj = new Tag();
+                        $tagObj->title = $tag;
+                        $tagObj->save();
+                        $model->link('tags',$tagObj);
+                    }
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -134,12 +137,15 @@ class PostController extends Controller
             $model->updated_at = $data['updated_at'];
 
             if($model->save()){
-                $tagArray = explode(',',$tags);
-                foreach ($tagArray as $tag){
-                    $tagObj = new Tag();
-                    $tagObj->title = $tag;
-                    $tagObj->save();
-                    $model->link('tags',$tagObj);
+                $tagArray = explode(',',$tags.',');
+                $tagArray1 = array_diff($tagArray,[""]);
+                if(count($tagArray1) > 0){
+                    foreach ($tagArray1 as $tag){
+                        $tagObj = new Tag();
+                        $tagObj->title = $tag;
+                        $tagObj->save();
+                        $model->link('tags',$tagObj);
+                    }
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }

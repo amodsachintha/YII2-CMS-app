@@ -26,7 +26,7 @@ use app\models\Category;
 
     <div class="form-group">
         <label for="tags">Tags</label>
-        <input type="text" required name="tags" id="tags" class="form-control">
+        <input type="text" name="tags" id="tags" class="form-control">
         <small>*separate each tag with a comma(,)</small>
     </div>
 

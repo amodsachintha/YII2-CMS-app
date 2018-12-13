@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'key' => md5(Yii::$app->getSecurity()->generateRandomString(32))
     ]) ?>
 
 </div>

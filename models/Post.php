@@ -48,7 +48,7 @@ class Post extends \yii\db\ActiveRecord
             'id' => 'ID',
             'category_id' => 'Category ID',
             'user_id' => 'Author ID',
-            'title' => 'Title',
+            'title' => 'Post Title',
             'content' => 'Content',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

@@ -22,7 +22,7 @@ use app\models\Category;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content')->textarea(['rows' => 24]) ?>
 
     <div class="form-group">
         <label for="tags">Tags</label>

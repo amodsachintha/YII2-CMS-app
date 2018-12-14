@@ -8,9 +8,11 @@ use app\models\searches\UserSearch;
 use yii\base\Exception;
 use yii\base\Security;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UnauthorizedHttpException;
+use yii\filters\AccessControl;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -29,17 +31,33 @@ class UserController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['home', 'index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
         ];
     }
 
     /**
      * Lists all User models.
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest){
-            throw new UnauthorizedHttpException("Unauthorized!",401);
+        if(Yii::$app->user->identity->role->name !== "SA"){
+            throw new ForbiddenHttpException('You are not allowed to enter this section.');
         }
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -55,13 +73,13 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws ForbiddenHttpException
      */
     public function actionView($id)
     {
-        if(Yii::$app->user->isGuest){
-            throw new UnauthorizedHttpException("Unauthorized!",401);
+        if(Yii::$app->user->identity->role->name !== "SA"){
+            throw new ForbiddenHttpException('You are not allowed to enter this section.');
         }
-
         $model = $this->findModel($id);
         return $this->render('view', [
             'model' => $model,
@@ -72,21 +90,22 @@ class UserController extends Controller
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->isGuest){
-            throw new UnauthorizedHttpException("Unauthorized!",401);
+        if(Yii::$app->user->identity->role->name !== "SA"){
+            throw new ForbiddenHttpException('You are not allowed to enter this section.');
         }
         $model = new User();
 
-        if(Yii::$app->request->isPost){
+        if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post()['User'];
-            $data['auth_key'] = str_split(md5(openssl_random_pseudo_bytes(8)),10)[0];
+            $data['auth_key'] = str_split(md5(openssl_random_pseudo_bytes(8)), 10)[0];
             $data['access_token'] = md5(openssl_random_pseudo_bytes(8));
-            try{
+            try {
                 $data['password'] = Yii::$app->getSecurity()->generatePasswordHash($data['password']);
-            }catch (Exception $exception){
+            } catch (Exception $exception) {
                 return $exception->getMessage();
             }
 
@@ -114,22 +133,23 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws ForbiddenHttpException
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->isGuest){
-            throw new UnauthorizedHttpException("Unauthorized!",401);
+        if(Yii::$app->user->identity->role->name !== "SA"){
+            throw new ForbiddenHttpException('You are not allowed to enter this section.');
         }
         $model = $this->findModel($id);
         $model->password = null;
 
-        if(Yii::$app->request->isPost){
+        if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post()['User'];
             $data['auth_key'] = $model->auth_key;
             $data['access_token'] = $model->access_token;
-            try{
+            try {
                 $data['password'] = Yii::$app->getSecurity()->generatePasswordHash($data['password']);
-            }catch (Exception $exception){
+            } catch (Exception $exception) {
                 return $exception->getMessage();
             }
 
@@ -157,13 +177,13 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws ForbiddenHttpException
      */
     public function actionDelete($id)
     {
-        if(Yii::$app->user->isGuest){
-            throw new UnauthorizedHttpException("Unauthorized!",401);
+        if(Yii::$app->user->identity->role->name !== "SA"){
+            throw new ForbiddenHttpException('You are not allowed to enter this section.');
         }
-
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

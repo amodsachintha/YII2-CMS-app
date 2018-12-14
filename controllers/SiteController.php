@@ -2,6 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\Apikey;
+use app\models\Category;
+use app\models\Count;
+use app\models\Media;
+use app\models\Post;
+use app\models\Tag;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +68,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $count = new Count();
+        $count->postCount = Post::find()->count();
+        $count->mediaCount=Media::find()->count();
+        $count->categoryCount = Category::find()->count();
+        $count->tagCount = Tag::find()->count();
+        $count->userCount = User::find()->count();
+        $count->apikeyCount = Apikey::find()->count();
+        return $this->render('index',['count'=>$count]);
     }
 
     /**

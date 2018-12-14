@@ -44,7 +44,7 @@ class PostController extends Controller
                 return ['msg' => '404: Not Found'];
             }
             return [
-                'item' => $post,
+                'post' => $post,
                 'category' => $post->category,
                 'tags' => $post->tags,
                 'media' => $post->medias

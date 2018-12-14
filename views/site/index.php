@@ -1,4 +1,5 @@
 <?php
+use yii\bootstrap\Carousel;
 
 /* @var $this yii\web\View */
 
@@ -7,8 +8,8 @@ $this->title = 'Home';
 <div class="site-index">
 
     <div class="jumbotron">
-        <img src="/img/logo.png">
-        <h1>SCMA Interactive Student Handbook</h1>
+        <img src="/img/logo.png" width="200">
+        <h2>SCMA Interactive Student Handbook CMS</h2>
 
         <?php if (Yii::$app->user->isGuest) {
             echo "<p class='lead'>Please Login to continue..</p>";
@@ -30,13 +31,15 @@ $this->title = 'Home';
             <div class='panel-heading'>Manage Content</div>
               <div class='panel-body'>
               <div class='row'>
-                <a href='/post' class='btn btn-primary' style='width: 80%'>Manage Posts</a>
+                <a href='/post' class='btn btn-primary' style='width: 80%'><span class='glyphicon glyphicon-list' aria-hidden='true'></span> Manage Posts</a>
               </div>
               <div class='row' style='margin-top: 10px'>
-                 <a href='/media' class='btn btn-primary' style='width: 80%'>Manage Media</a>
+                 <a href='/media' class='btn btn-primary' style='width: 80%'><span class='glyphicon glyphicon-picture' aria-hidden='true'></span> Manage Media</a>
               </div>  
-              
-                
+              </div>
+              <div class='panel-footer'>
+                  <p>Posts: <span class='badge'>$count->postCount</span></p>
+                  <p>Media: <span class='badge'>$count->mediaCount</span></p>
               </div>
             </div>
         </div>
@@ -46,11 +49,15 @@ $this->title = 'Home';
             <div class='panel-heading'>Manage Metadata</div>
               <div class='panel-body'>
               <div class='row' >
-                <a href='/category' class='btn btn-info' style='width: 80%'>Manage Categories</a>
+                <a href='/category' class='btn btn-info' style='width: 80%'><span class='glyphicon glyphicon-folder-close' aria-hidden='true'></span> Manage Categories</a>
               </div>
               <div class='row' style='margin-top: 10px'>
-                 <a href='/tag' class='btn btn-info' style='width: 80%'>Manage Tags</a>
+                 <a href='/tag' class='btn btn-info' style='width: 80%'><span class='glyphicon glyphicon-tags' aria-hidden='true'></span> Manage Tags</a>
               </div> 
+              </div>
+              <div class='panel-footer'>
+                  <p>Categories: <span class='badge'>$count->categoryCount</span></p>
+                  <p>Tags: <span class='badge'>$count->tagCount</span></p>
               </div>
             </div>
         </div>
@@ -60,12 +67,15 @@ $this->title = 'Home';
             <div class='panel-heading'>Auth</div>
               <div class='panel-body'>
               <div class='row' >
-                 <a href='/user' class='btn btn-danger' style='width: 80%'>Manage Users</a>
+                 <a href='/user' class='btn btn-danger' style='width: 80%'><span class='glyphicon glyphicon-user' aria-hidden='true'></span> Manage Users</a>
               </div>
              <div class='row' style='margin-top: 10px'>
-                 <a href='/apikey' class='btn btn-danger' style='width: 80%'>Manage API Credentials</a>
+                 <a href='/apikey' class='btn btn-danger' style='width: 80%'><span class='glyphicon glyphicon-cloud' aria-hidden='true'></span> Manage API Credentials</a>
               </div> 
-              
+              </div>
+              <div class='panel-footer'>
+                  <p>Users: <span class='badge'>$count->userCount</span></p>
+                  <p>API Keys: <span class='badge'>$count->apikeyCount</span></p>
               </div>
             </div>
         </div>
@@ -85,13 +95,15 @@ $this->title = 'Home';
             <div class='panel-heading'>Manage Content</div>
               <div class='panel-body'>
               <div class='row'>
-                <a href='/post' class='btn btn-primary' style='width: 80%'>Manage Posts</a>
+                <a href='/post' class='btn btn-primary' style='width: 80%'><span class='glyphicon glyphicon-list' aria-hidden='true'></span> Manage Posts</a>
               </div>
               <div class='row' style='margin-top: 10px'>
-                 <a href='/media' class='btn btn-primary' style='width: 80%'>Manage Media</a>
+                 <a href='/media' class='btn btn-primary' style='width: 80%'><span class='glyphicon glyphicon-picture' aria-hidden='true'></span> Manage Media</a>
               </div>  
-              
-                
+              </div>
+              <div class='panel-footer'>
+                  <p>Posts: <span class='badge'>$count->postCount</span></p>
+                  <p>Media: <span class='badge'>$count->mediaCount</span></p>
               </div>
             </div>
         </div>
@@ -101,11 +113,15 @@ $this->title = 'Home';
             <div class='panel-heading'>Manage Metadata</div>
               <div class='panel-body'>
               <div class='row' >
-                <a href='/category' class='btn btn-info' style='width: 80%'>Manage Categories</a>
+                <a href='/category' class='btn btn-info' style='width: 80%'><span class='glyphicon glyphicon-folder-close' aria-hidden='true'></span> Manage Categories</a>
               </div>
               <div class='row' style='margin-top: 10px'>
-                 <a href='/tag' class='btn btn-info' style='width: 80%'>Manage Tags</a>
+                 <a href='/tag' class='btn btn-info' style='width: 80%'><span class='glyphicon glyphicon-tags' aria-hidden='true'></span> Manage Tags</a>
               </div> 
+              </div>
+              <div class='panel-footer'>
+                  <p>Categories: <span class='badge'>$count->categoryCount</span></p>
+                  <p>Tags: <span class='badge'>$count->tagCount</span></p>
               </div>
             </div>
         </div>

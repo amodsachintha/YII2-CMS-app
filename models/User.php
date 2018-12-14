@@ -51,7 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
             'role_id' => 'Role ID',
             'email' => 'Email',
             'password' => 'Password',
-            'name' => 'Author',
+            'name' => 'Name',
             'auth_key' => 'Auth Key',
             'access_token' => 'Access Token',
         ];

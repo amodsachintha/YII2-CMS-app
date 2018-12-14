@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'role_id',
+            'role.description',
             'email:email',
 //            'password',
             'name',

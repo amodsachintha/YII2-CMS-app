@@ -37,7 +37,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'SCMA Interactive Student Handbook',
+        'brandLabel' => '<img src="/img/logo_sm.png" width="90" class="pull-left"/>',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',

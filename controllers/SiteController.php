@@ -68,6 +68,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        $this->layout = false;
         $count = new Count();
         $count->postCount = Post::find()->count();
         $count->mediaCount=Media::find()->count();
@@ -139,4 +140,44 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+
+    public function actionPosts(){
+        $search = YII::$app->request->get('search');
+        if($search !== '' && isset($search)){
+            $posts = Post::find()
+                ->where(['LIKE', 'title', $search])
+                ->orWhere(['LIKE', 'content', $search])
+                ->all();
+            $count = Post::find()
+                ->where(['LIKE', 'title', $search])
+                ->orWhere(['LIKE', 'content', $search])->count();
+            if($count > 0){
+                $message = "<div class='alert alert-success alert-dismissible' role='alert'>
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                            <strong>".$count."</strong> result(s) found!</div>";
+            }
+            else{
+                $message = "<div class='alert alert-danger alert-dismissible' role='alert'>
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                            No posts matching <strong>".$search."</strong> found!
+                            </div>";
+            }
+            return $this->render('posts',[
+                'posts' =>  $posts,
+                'search' => $search,
+                'count' => $count,
+                'message' => $message
+            ]);
+        }
+
+        return $this->render('posts',[
+           'posts' =>  Post::find()->all()
+        ]);
+    }
+
 }

@@ -16,23 +16,13 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'nXD7Rnz7Kt_2h-JLJV67q43L0QxdjJzO',
         ],
-        'view' => [
-            'class' => 'yii\web\View',
-            'renderers' => [
-                'twig' => [
-                    'class' => 'yii\twig\ViewRenderer',
-                    'cachePath' => '@runtime/Twig/cache',
-                    'options' => [
-                        'auto_reload' => true,
-                    ],
-                    'globals' => [
-                        'html' => ['class' => '\yii\helpers\Html'],
-                    ],
-                    'uses' => ['yii\bootstrap'],
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'jsOptions' => [ 'position' => \yii\web\View::POS_HEAD ],
                 ],
             ],
         ],
-
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

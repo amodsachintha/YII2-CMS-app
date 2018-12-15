@@ -35,5 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
+        'options'=>[
+                'class' => 'table-condensed table-responsive',
+                'style'=>'background-color:white',
+            ]
     ]); ?>
 </div>

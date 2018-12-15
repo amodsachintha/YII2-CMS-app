@@ -5,12 +5,34 @@ use yii\bootstrap\Carousel;
 
 $this->title = 'Home';
 ?>
-<div class="site-index">
+<div class="site-index" style="margin-top: -20px">
+    <div class="row" style="text-align: center">
+        <div class='alert alert-light' align='center'><h2>SCMA Interactive Student Handbook CMS</h2></div>
+    </div>
+
+    <?php
+    echo Carousel::widget([
+    'items' => [
+        [
+            'content' => '<img src="/img/slides_1/1.jpg"/>',
+            'caption' => '<img src="/img/logo.png" width="300"><h3>Interactive Student Handbook CMS</h3>',
+            'options' => ['align'=>'center'],
+        ],
+        [
+            'content' => '<img src="/img/slides_1/2.jpg"/>',
+            'caption' => '<h2>SCMA CMS</h2><p>Powers the SCMA API</p>',
+            'options' => ['align'=>'center'],
+        ],
+        [
+            'content' => '<img src="/img/slides_1/3.png"/>',
+            'options' => ['align'=>'center'],
+        ],
+    ]
+]);
+    ?>
 
     <div class="jumbotron">
-        <img src="/img/logo.png" width="200">
-        <h2>SCMA Interactive Student Handbook CMS</h2>
-
+<!--        <img src="/img/logo.png" width="200">-->
         <?php if (Yii::$app->user->isGuest) {
             echo "<p class='lead'>Please Login to continue..</p>";
             echo "<p><a class=\"btn btn-lg btn-success\" href=\"/site/login\">Login</a></p>";
@@ -21,7 +43,7 @@ $this->title = 'Home';
     <?php if (!Yii::$app->user->isGuest) {
         if (Yii::$app->user->identity->role->name === "SA") {
             echo "
-<div class='body-content'>
+<div class='body-content' style='margin-top: -110px'>
     <div class='row'>
         <div class='alert alert-danger' align='center'>You are logged in as SUPER ADMIN</div>
     </div>
@@ -85,7 +107,7 @@ $this->title = 'Home';
         ";
         } else {
             echo "
-<div class='body-content'>
+<div class='body-content' style='margin-top: -110px'>
     <div class='row' style='margin-bottom: 10px'>
         <div class='alert alert-warning' align='center'><h5>You are logged in as CONTENT-CREATOR</h5></div>
     </div>

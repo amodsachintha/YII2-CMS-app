@@ -35,7 +35,8 @@ class PostController extends Controller
                 'only' => ['home','index','view','create','update','delete'],
                 'rules' => [
                     [
-                        'allow' => false,
+                        'allow' => true,
+                        'actions' => ['view'],
                         'roles' => ['?'],
                     ],
                     [

@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <br>
             <code>http://{hostname:port}/api/post/view?id={id}&key={API_KEY}</code>
             <br>
-            <a href="/api/post/view?id=2&key=491a5964c727c39f54d2be9ddf18028c" class="btn btn-default btn-sm" target="_blank"><kbd>GET</kbd> post with ID = 2</a>
+            <a href="/api/post/view?id=6&key=491a5964c727c39f54d2be9ddf18028c" class="btn btn-default btn-sm" target="_blank"><kbd>GET</kbd> post with ID = 6</a>
         </p>
     </p>
 

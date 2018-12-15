@@ -164,7 +164,7 @@ class SiteController extends Controller
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                                 <span aria-hidden='true'>&times;</span>
                             </button>
-                            No posts matching <strong>".$search."</strong> found!
+                            No posts matching posts for <strong>".$search."</strong> found!
                             </div>";
             }
             return $this->render('posts',[

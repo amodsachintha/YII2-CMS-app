@@ -117,7 +117,7 @@ class UserController extends Controller
             $model->access_token = $data['access_token'];
 
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
 
         }
@@ -161,7 +161,7 @@ class UserController extends Controller
             $model->access_token = $data['access_token'];
 
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
 
         }

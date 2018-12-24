@@ -22,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <p style="font-size: x-large; text-align: center"><?= Html::encode($this->title) ?></p>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input id="search" name="search" type="text" class="form-control" placeholder="Search.." value="<?= isset($search) ? $search : ''?>">
+                                    <input id="search" name="search" type="text" class="form-control" placeholder="Search.." value="<?= isset($search) ? $search : ''?>" required>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="submit" class="btn btn-default btn-block" value="Search">
+                                    <input type="submit" class="btn btn-success btn-block" value="Search">
                                 </div>
                             </div>
                         </form>
@@ -50,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
     foreach ($posts as $post) {
         $content = \yii\helpers\HtmlPurifier::process(str_split($post->content, 500)[0]);
         $author = $post->user->name;
+        $created_at = Yii::$app->formatter->asDatetime($post->created_at);
         echo "
               <div class='row'>
                 <div class='panel panel-info'>
@@ -62,8 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class='panel-footer'>
                         <div class='row'>
                             <div class='col-md-4'>author: <span class='badge'> $author</span></div>
-                            <div class='col-md-4'><i>created at: $post->created_at</i></div>
-                            <div class='col-md-4' align='right'><a href='/post/view?id=$post->id' class='btn btn-success'>View Full</a></div>
+                            <div class='col-md-4'><i>$created_at</i></div>
+                            <div class='col-md-4' align='right'><a href='/post/view?id=$post->id' class='btn btn-success'>View</a></div>
                         </div>
                     </div>
                  </div>

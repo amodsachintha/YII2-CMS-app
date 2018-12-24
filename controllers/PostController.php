@@ -91,8 +91,8 @@ class PostController extends Controller
 
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post()['Post'];
-            $tags = Yii::$app->request->post()['tags'];
-
+            $tags = Yii::$app->request->post('tags');
+//            return var_dump($tags);
             $data['user_id'] = Yii::$app->user->identity->getId();
             $date = new DateTime();
 
@@ -110,10 +110,8 @@ class PostController extends Controller
             $model->updated_at = $data['updated_at'];
 
             if($model->save()){
-                $tagArray = explode(',',$tags);
-                $tagArray1 = array_diff($tagArray,[""]);
-                if(count($tagArray1) > 0){
-                    foreach ($tagArray1 as $tag){
+                if(count($tags) > 0){
+                    foreach ($tags as $tag){
                         $tagObj = new Tag();
                         $tagObj->title = $tag;
                         $tagObj->save();

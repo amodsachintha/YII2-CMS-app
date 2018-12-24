@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Media */
 
-$this->title = $model->id;
+$this->title = $model->post->title;
 $this->params['breadcrumbs'][] = ['label' => 'Media', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -34,13 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'url:ntext',
         ],
     ]) ?>
+<div class="row">
+    <p>Preview: </p>
 
     <?php
     if (preg_match('(png|jpeg|jpg|bmp)', $model->url) === 1) {
-        echo "<img src='$model->url' width='200' class='img-thumbnail'> &nbsp;";
+        echo "<a href='$model->url' target='_blank'><img src='$model->url' width='200' class='img-thumbnail'></a> &nbsp;";
     } else {
         echo "<a href='$model->url' class='btn btn-warning' target='_blank'>Download File</a> &nbsp;";
     }
 
     ?>
+</div>
 </div>

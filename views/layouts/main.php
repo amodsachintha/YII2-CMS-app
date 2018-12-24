@@ -22,6 +22,13 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.css">
+    <!--    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">-->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.min.js"></script>
+
     <?php $this->head() ?>
     <script src="/js/tinymce/tinymce.min.js"></script>
 <!--    <script src="/js/ckeditor5/ckeditor.js"></script>-->

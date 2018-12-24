@@ -36,12 +36,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'category_id',
-            'user_id',
+            [
+                'label'=>'Category',
+                'value'=> $model->category->title
+            ],
+            [
+                    'label'=>'Author',
+                    'value'=> $model->user->name
+            ],
             'title',
             'content:raw',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

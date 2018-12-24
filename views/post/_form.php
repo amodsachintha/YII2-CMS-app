@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Category;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -22,11 +23,23 @@ use app\models\Category;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 24]) ?>
+    <?= $form->field($model, 'content')->textarea(['rows' => 16]) ?>
 
     <div class="form-group">
-        <label for="tags">Tags</label>
-        <input type="text" name="tags" id="tags" class="form-control">
+        <?=
+         Select2::widget([
+            'name' => 'tags',
+            'options' => [
+                'placeholder' => 'enter tags..',
+                'multiple' => true
+            ],
+            'pluginOptions' => [
+                'tags' => true,
+                'tokenSeparators' => [',', ' '],
+                'maximumInputLength' => 20
+            ],
+        ]);
+        ?>
         <small>*separate each tag with a comma(,)</small>
     </div>
 

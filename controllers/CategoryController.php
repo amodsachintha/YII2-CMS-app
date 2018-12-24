@@ -89,7 +89,7 @@ class CategoryController extends Controller
             $data['Category']['updated_at'] = $date->format('Y-m-d H:i:s');
 
             if ($model->load($data) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         }
 
@@ -115,7 +115,7 @@ class CategoryController extends Controller
             $data['Category']['updated_at'] = $date->format('Y-m-d H:i:s');
 
             if ($model->load($data) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         }
         return $this->render('update', [

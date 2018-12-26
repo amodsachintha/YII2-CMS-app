@@ -10,6 +10,7 @@ use app\models\Post;
 use app\models\Tag;
 use app\models\User;
 use Yii;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -76,10 +77,11 @@ class SiteController extends Controller
         $count->tagCount = Tag::find()->count();
         $count->userCount = User::find()->count();
         $count->apikeyCount = Apikey::find()->count();
+        $posts = Post::find()->orderBy(new Expression('rand()'))->limit(4)->all();
 
         $postsQuery = Post::find();
 
-        $users = ArrayHelper::getColumn(User::find()->select(['name'])->all(), 'name');
+        $users = ArrayHelper::getColumn(User::find()->select(['name'])->limit(5)->all(), 'name');
         $userPostArray = [];
         $i=1;
         foreach ($users as $user) {
@@ -137,7 +139,8 @@ class SiteController extends Controller
             'textMonths' => $fullMonths,
             'fullMonths' => $months,
             'postsPerMonth' => $postsArray,
-            'postsPerUser' => $userPostArray
+            'postsPerUser' => $userPostArray,
+            'posts' => $posts
         ]);
     }
 

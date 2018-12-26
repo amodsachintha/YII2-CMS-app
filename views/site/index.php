@@ -12,6 +12,7 @@ $this->title = 'Home';
     </div>
 
     <?php
+    if(Yii::$app->user->isGuest)
     echo Carousel::widget([
         'items' => [
             [
@@ -31,16 +32,7 @@ $this->title = 'Home';
         ]
     ]);
     ?>
-<hr>
-    <div class="row" style="margin-top: 20px">
-        <div class="col-md-7">
-            <canvas id="myChart"></canvas>
-        </div>
-        <div class="col-md-5">
-            <canvas id="myChart2"></canvas>
-        </div>
-    </div>
-<hr>
+
     <div class="jumbotron">
         <!--        <img src="/img/logo.png" width="200">-->
         <?php if (Yii::$app->user->isGuest) {
@@ -50,10 +42,55 @@ $this->title = 'Home';
         ?>
     </div>
 
+
+    <?php
+        if(Yii::$app->user->isGuest){
+            echo "<div class='row'>";
+                foreach ($posts as $post){
+                    $content = Yii::$app->formatter->asHtml(str_split($post->content,200)[0]);
+                    $date = Yii::$app->formatter->asDate($post->created_at);
+                    echo "<div class='col-sm-3'><div class='panel panel-default' style='text-align: center; min-height: 250px;'>
+                    <div class='panel-heading'><h4>$post->title</h4></div>
+                    <div class='panel-body' style='max-height: 150px; overflow: auto'>
+                         <a href='/post/view?id=$post->id' class='btn btn-primary'>View Post</a>
+                    </div>
+                   
+                    <div class='panel-footer' style='background-color: white'>
+                        $date
+                    </div>
+
+</div></div>";
+                }
+            echo "</div>";
+
+        }
+
+
+    ?>
+
+
     <?php if (!Yii::$app->user->isGuest) {
+
+
+        echo "
+        <div class='row' style='margin-top: -110px; margin-bottom: 120px'>
+        <div class='col-md-7'>
+        <div class='panel panel-default' style='min-height: 325px;'>
+            <canvas id='myChart' ></canvas>
+        </div>
+            
+        </div>
+        <div class='col-md-5'>
+            <div class='panel panel-default' style='min-height: 325px;'>
+            <canvas id='myChart2' ></canvas>
+        </div>
+        </div>
+    </div>";
+
+
         if (Yii::$app->user->identity->role->name === "SA") {
             echo "
-<div class='body-content' style='margin-top: -110px'>
+<div class='body-content' style='margin-top: -110px;'>
     <div class='row'>
         <div class='alert alert-danger' align='center'>You are logged in as SUPER ADMIN</div>
     </div>
@@ -163,7 +200,18 @@ $this->title = 'Home';
         }
     }
     ?>
+
     <script>
+        window.chartColors = {
+            1: 'rgb(255, 99, 132)',
+            2: 'rgb(255, 159, 64)',
+            3: 'rgb(255, 205, 86)',
+            4: 'rgb(75, 192, 192)',
+            5: 'rgb(54, 162, 235)',
+            6: 'rgb(153, 102, 255)',
+            7: 'rgb(201, 203, 207)'
+        };
+
         var ctx = document.getElementById('myChart').getContext('2d');
         var ctx2 = document.getElementById('myChart2').getContext('2d');
         var lineChart = new Chart(ctx, {
@@ -180,8 +228,8 @@ $this->title = 'Home';
                 ?>
                 datasets: [{
                     label: "Number of Posts",
-                    backgroundColor: 'rgb(133, 193, 233)',
-                    borderColor: 'rgb(133, 193, 233)',
+                    backgroundColor: window.chartColors[1],
+                    borderColor: window.chartColors[1],
                     <?php
                     $i = 1;
                     echo "data:[";
@@ -226,18 +274,9 @@ $this->title = 'Home';
                 }
             }
         });
-        window.chartColors = {
-            1: 'rgb(255, 99, 132)',
-            2: 'rgb(255, 159, 64)',
-            3: 'rgb(255, 205, 86)',
-            4: 'rgb(75, 192, 192)',
-            5: 'rgb(54, 162, 235)',
-            6: 'rgb(153, 102, 255)',
-            7: 'rgb(201, 203, 207)'
-        };
 
         var pieChart = new Chart(ctx2, {
-            type: 'doughnut',
+            type: 'pie',
             data: {
                 datasets: [{
                     data: [
@@ -272,7 +311,7 @@ $this->title = 'Home';
             options: {
                 responsive: true,
                 legend: {
-                    position: 'top',
+                    position: 'right',
                 },
                 title: {
                     display: true,
